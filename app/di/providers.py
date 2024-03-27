@@ -11,13 +11,14 @@ from app.adapters.uow import SqlalchemyUnitOfWork
 from app.services.blogs import BlogsService
 from app.di.dep_collector import collector
 
-@collector.factory(AsyncEngine)
 @singleton_factory()
+@collector.factory(AsyncEngine)
 def create_engine() -> AsyncEngine:
     return create_async_engine(settings.DATABASE_URL, echo=settings.ECHO)
 
 
-@singleton_factory(async_sessionmaker)
+@singleton_factory()
+@collector.factory(async_sessionmaker[AsyncSession])
 def create_session_maker(
     engine: Annotated[AsyncEngine, Depends(Stub(AsyncEngine))],
 ) -> async_sessionmaker[AsyncSession]:
@@ -53,4 +54,3 @@ def new_blog_service(
     blogs_repo: Annotated[IBlogsRepository, Depends()],
 ) -> BlogsService:
     return BlogsService(uow, blogs_repo)
-
