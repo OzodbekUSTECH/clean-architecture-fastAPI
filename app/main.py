@@ -10,4 +10,8 @@ app = FastAPI(
 for router in all_routers:
     app.include_router(router, prefix=settings.api_prefix)
 
-init_dependencies(app)
+# init_dependencies(app)
+from app.di.dep_collector import collector
+
+
+collector.init_dependencies(app)

@@ -5,7 +5,7 @@ from app.abstractions.blogs import IBlogsRepository
 
 
 
-class SqlalchemyBlogsrRepository(IBlogsRepository):
+class SqlalchemyBlogsRepository(IBlogsRepository):
 
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
